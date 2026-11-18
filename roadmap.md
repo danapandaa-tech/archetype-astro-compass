@@ -7,3 +7,6 @@
 - [x] Add Today’s Mirror with weekday rulers, card draws, and private morning/evening reflections.
 - [x] Add Polarity & Integration with custom pairs, classic pairs, and birth-Sun comparison.
 - [x] Test reflection rules and verify both tools on desktop and mobile.
+- [x] Add five-question guided calling inquiry from landing and compass.
+- [x] Connect scored calling and shadow invitation to Mirror and share card.
+- [x] Test scoring rules and verify the assessment journey on desktop and mobile.

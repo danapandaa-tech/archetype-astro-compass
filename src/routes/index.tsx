@@ -5,6 +5,8 @@ import { ArchetypeScanner } from "@/components/archetype-scanner";
 import { Button } from "@/components/ui/button";
 import { Stars } from "@/components/cosmic-shell";
 import { ArrowLeftRight, Orbit } from "lucide-react";
+import { CallingAssessment } from "@/components/calling-assessment";
+import { type CallingResult } from "@/lib/assessment";
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): { view?: "compass" | undefined } => ({ view: search["view"] === "compass" ? "compass" : undefined }),
@@ -21,32 +23,37 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Stage = "landing" | "compass" | "mirror" | "card" | "scanner";
+type Stage = "landing" | "compass" | "mirror" | "card" | "scanner" | "assessment";
 
 function Index() {
   const { view } = Route.useSearch();
   const [stage, setStage] = useState<Stage>(view === "compass" ? "compass" : "landing");
   const [active, setActive] = useState<Archetype | null>(null);
+  const [calling, setCalling] = useState<CallingResult | null>(null);
+  const [assessmentOrigin, setAssessmentOrigin] = useState<"landing" | "compass">("landing");
+  const startAssessment = (origin: "landing" | "compass") => { setAssessmentOrigin(origin); setStage("assessment"); };
   return (
     <main className="relative min-h-screen overflow-hidden bg-cosmic text-foreground">
       <Stars />
       <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-5 py-12">
-        {stage !== "landing" && <nav className="mb-8 flex flex-wrap justify-center gap-3" aria-label="Reflection rituals">
+        {stage !== "landing" && stage !== "assessment" && <nav className="mb-8 flex flex-wrap justify-center gap-3" aria-label="Reflection rituals">
           <Button asChild variant="outline"><Link to="/oracle"><Orbit />Today’s Mirror</Link></Button>
           <Button asChild variant="outline"><Link to="/polarity" search={{ calling: active?.id }}><ArrowLeftRight />Polarity & Integration</Link></Button>
         </nav>}
-        {stage === "landing" && <Landing onBegin={() => setStage("compass")} />}
+        {stage === "landing" && <Landing onBegin={() => setStage("compass")} onAssess={() => startAssessment("landing")} />}
+        {stage === "assessment" && <CallingAssessment onBack={() => setStage(assessmentOrigin)} onComplete={result => { setCalling(result); setActive(result.primary); setStage("mirror"); window.scrollTo({ top: 0, behavior: "instant" }); }} />}
         {stage === "scanner" && <ArchetypeScanner onBack={() => setStage("compass")} />}
         {stage === "compass" && <Button variant="outline" className="mb-8" onClick={() => setStage("scanner")}>Discover my birth profile</Button>}
-        {stage === "compass" && <Compass active={active} setActive={setActive} onChoose={(a) => { setActive(a); setStage("mirror"); }} />}
-        {stage === "mirror" && active && <Mirror a={active} onBack={() => setStage("compass")} onCard={() => setStage("card")} onScan={() => setStage("scanner")} />}
-        {stage === "card" && active && <ShareCard a={active} onBack={() => setStage("mirror")} onRestart={() => { setActive(null); setStage("compass"); }} onScan={() => setStage("scanner")} />}
+        {stage === "compass" && <Button variant="outline" className="mb-8 h-auto whitespace-normal text-center" onClick={() => startAssessment("compass")}>Discover which archetype is calling me</Button>}
+        {stage === "compass" && <Compass active={active} setActive={setActive} onChoose={(a) => { setCalling(null); setActive(a); setStage("mirror"); }} />}
+        {stage === "mirror" && active && <Mirror a={active} calling={calling} onBack={() => setStage("compass")} onCard={() => setStage("card")} onScan={() => setStage("scanner")} />}
+        {stage === "card" && active && <ShareCard a={active} calling={calling} onBack={() => setStage("mirror")} onRestart={() => { setCalling(null); setActive(null); setStage("compass"); }} onScan={() => setStage("scanner")} />}
       </div>
     </main>
   );
 }
 
-function Landing({ onBegin }: { onBegin: () => void }) {
+function Landing({ onBegin, onAssess }: { onBegin: () => void; onAssess: () => void }) {
   return (
     <div className="fade-in text-center">
       <p className="mb-6 text-xs uppercase tracking-[0.4em] text-teal">The Archetype Compass</p>
@@ -57,6 +64,7 @@ function Landing({ onBegin }: { onBegin: () => void }) {
         Twelve patterns of the psyche, twelve signs of the sky. Not a prediction — a mirror.
       </p>
       <div className="mt-10 flex justify-center"><Button onClick={onBegin} className="btn-glow h-auto whitespace-normal">Begin</Button></div>
+      <div className="mt-4 flex justify-center"><Button variant="ghost" onClick={onAssess} className="h-auto max-w-full whitespace-normal py-3 text-teal">Discover which archetype is calling me</Button></div>
     </div>
   );
 }
@@ -129,7 +137,17 @@ function Compass({ active, setActive, onChoose }: { active: Archetype | null; se
   );
 }
 
-function Mirror({ a, onBack, onCard, onScan }: { a: Archetype; onBack: () => void; onCard: () => void; onScan: () => void }) {
+function CallingInvitation({ calling }: { calling: CallingResult }) {
+  return <section className="mt-8 border-y border-border py-6">
+    <p className="text-sm text-gold">Your guided calling · {calling.primaryScore} of 5 choices</p>
+    {calling.tied && <p className="mt-2 text-sm text-muted-foreground">More than one pattern resonated equally; your later answers brought this one forward.</p>}
+    <h3 className="mt-3 font-display text-2xl">Shadow invitation · {calling.shadow.name}</h3>
+    <p className="mt-3 leading-relaxed">{calling.invitation}</p>
+    <p className="mt-3 text-xs text-muted-foreground">{calling.shadowSource === "secondary" ? "This second voice also appeared in your answers; it is an invitation, not a label." : "With one pattern throughout, this complementary voice offers a balancing invitation."}</p>
+  </section>;
+}
+
+function Mirror({ a, calling, onBack, onCard, onScan }: { a: Archetype; calling: CallingResult | null; onBack: () => void; onCard: () => void; onScan: () => void }) {
   const parts = [
     ["What calls you", a.calls, "from-purple"],
     ["What tests you", a.tests, "from-electric"],
@@ -149,6 +167,7 @@ function Mirror({ a, onBack, onCard, onScan }: { a: Archetype; onBack: () => voi
           </section>
         ))}
       </div>
+      {calling && <CallingInvitation calling={calling} />}
       <div className="mt-8 flex flex-wrap justify-center gap-3">
         <button onClick={onBack} className="btn-ghost">Back to the wheel</button>
         <button onClick={onCard} className="btn-glow">Create my card</button>
@@ -159,7 +178,7 @@ function Mirror({ a, onBack, onCard, onScan }: { a: Archetype; onBack: () => voi
   );
 }
 
-function ShareCard({ a, onBack, onRestart, onScan }: { a: Archetype; onBack: () => void; onRestart: () => void; onScan: () => void }) {
+function ShareCard({ a, calling, onBack, onRestart, onScan }: { a: Archetype; calling: CallingResult | null; onBack: () => void; onRestart: () => void; onScan: () => void }) {
   const download = () => {
     const W = 1080, H = 1350, cv = document.createElement("canvas");
     cv.width = W; cv.height = H;
@@ -193,6 +212,7 @@ function ShareCard({ a, onBack, onRestart, onScan }: { a: Archetype; onBack: () 
         <p className="mt-1 font-display text-lg">{a.desire}</p>
         <p className="mt-8 font-display text-xl italic leading-snug">“{a.question}”</p>
       </div>
+      {calling && <div className="w-full max-w-2xl"><CallingInvitation calling={calling} /></div>}
       <div className="mt-8 flex flex-wrap justify-center gap-3">
         <button onClick={onBack} className="btn-ghost">Back</button>
         <button onClick={download} className="btn-glow">Download card</button>
