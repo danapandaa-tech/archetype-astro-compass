@@ -1,10 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ARCHETYPES, sunSign, type Archetype } from "@/lib/archetypes";
 import { ArchetypeScanner } from "@/components/archetype-scanner";
 import { Button } from "@/components/ui/button";
+import { Stars } from "@/components/cosmic-shell";
+import { ArrowLeftRight, Orbit } from "lucide-react";
 
 export const Route = createFileRoute("/")({
+  validateSearch: (search: Record<string, unknown>): { view?: "compass" | undefined } => ({ view: search["view"] === "compass" ? "compass" : undefined }),
   head: () => ({
     meta: [
       { title: "The Archetype Compass — Astro-Psychology Companion" },
@@ -20,29 +23,18 @@ export const Route = createFileRoute("/")({
 
 type Stage = "landing" | "compass" | "mirror" | "card" | "scanner";
 
-function Stars() {
-  const stars = useMemo(() => Array.from({ length: 90 }, (_, i) => ({
-    x: (i * 73.13) % 100, y: (i * 41.7 + i * i * 0.37) % 100, s: (i % 3) + 1, d: (i % 7) * 0.6,
-  })), []);
-  return (
-    <div className="pointer-events-none fixed inset-0 overflow-hidden">
-      <div className="absolute -left-40 -top-40 h-[36rem] w-[36rem] rounded-full bg-nebula-purple blur-3xl opacity-40" />
-      <div className="absolute -bottom-40 -right-40 h-[36rem] w-[36rem] rounded-full bg-nebula-teal blur-3xl opacity-30" />
-      {stars.map((s, i) => (
-        <span key={i} className="star absolute rounded-full bg-foreground"
-          style={{ left: `${s.x}%`, top: `${s.y}%`, width: s.s, height: s.s, animationDelay: `${s.d}s` }} />
-      ))}
-    </div>
-  );
-}
-
 function Index() {
-  const [stage, setStage] = useState<Stage>("landing");
+  const { view } = Route.useSearch();
+  const [stage, setStage] = useState<Stage>(view === "compass" ? "compass" : "landing");
   const [active, setActive] = useState<Archetype | null>(null);
   return (
     <main className="relative min-h-screen overflow-hidden bg-cosmic text-foreground">
       <Stars />
       <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-5 py-12">
+        {stage !== "landing" && <nav className="mb-8 flex flex-wrap justify-center gap-3" aria-label="Reflection rituals">
+          <Button asChild variant="outline"><Link to="/oracle"><Orbit />Today’s Mirror</Link></Button>
+          <Button asChild variant="outline"><Link to="/polarity" search={{ calling: active?.id }}><ArrowLeftRight />Polarity & Integration</Link></Button>
+        </nav>}
         {stage === "landing" && <Landing onBegin={() => setStage("compass")} />}
         {stage === "scanner" && <ArchetypeScanner onBack={() => setStage("compass")} />}
         {stage === "compass" && <Button variant="outline" className="mb-8" onClick={() => setStage("scanner")}>Discover my birth profile</Button>}
