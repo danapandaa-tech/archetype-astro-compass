@@ -43,18 +43,18 @@ function Index() {
     <main className="relative min-h-screen overflow-hidden bg-cosmic text-foreground">
       <Stars />
       <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-5 py-12">
-        {stage === "landing" && <Landing onBegin={() => setStage("compass")} onScan={() => setStage("scanner")} />}
+        {stage === "landing" && <Landing onBegin={() => setStage("compass")} />}
         {stage === "scanner" && <ArchetypeScanner onBack={() => setStage("compass")} />}
         {stage === "compass" && <Button variant="outline" className="mb-8" onClick={() => setStage("scanner")}>Discover my birth profile</Button>}
         {stage === "compass" && <Compass active={active} setActive={setActive} onChoose={(a) => { setActive(a); setStage("mirror"); }} />}
-        {stage === "mirror" && active && <Mirror a={active} onBack={() => setStage("compass")} onCard={() => setStage("card")} />}
-        {stage === "card" && active && <ShareCard a={active} onBack={() => setStage("mirror")} onRestart={() => { setActive(null); setStage("compass"); }} />}
+        {stage === "mirror" && active && <Mirror a={active} onBack={() => setStage("compass")} onCard={() => setStage("card")} onScan={() => setStage("scanner")} />}
+        {stage === "card" && active && <ShareCard a={active} onBack={() => setStage("mirror")} onRestart={() => { setActive(null); setStage("compass"); }} onScan={() => setStage("scanner")} />}
       </div>
     </main>
   );
 }
 
-function Landing({ onBegin, onScan }: { onBegin: () => void; onScan: () => void }) {
+function Landing({ onBegin }: { onBegin: () => void }) {
   return (
     <div className="fade-in text-center">
       <p className="mb-6 text-xs uppercase tracking-[0.4em] text-teal">The Archetype Compass</p>
@@ -64,7 +64,7 @@ function Landing({ onBegin, onScan }: { onBegin: () => void; onScan: () => void 
       <p className="mx-auto mt-6 max-w-md text-muted-foreground">
         Twelve patterns of the psyche, twelve signs of the sky. Not a prediction — a mirror.
       </p>
-      <div className="mt-10 flex flex-wrap justify-center gap-3"><Button onClick={onScan} className="btn-glow h-auto whitespace-normal">Discover my birth profile</Button><Button onClick={onBegin} variant="outline" className="h-auto py-3">Begin</Button></div>
+      <div className="mt-10 flex justify-center"><Button onClick={onBegin} className="btn-glow h-auto whitespace-normal">Begin</Button></div>
     </div>
   );
 }
@@ -137,7 +137,7 @@ function Compass({ active, setActive, onChoose }: { active: Archetype | null; se
   );
 }
 
-function Mirror({ a, onBack, onCard }: { a: Archetype; onBack: () => void; onCard: () => void }) {
+function Mirror({ a, onBack, onCard, onScan }: { a: Archetype; onBack: () => void; onCard: () => void; onScan: () => void }) {
   const parts = [
     ["What calls you", a.calls, "from-purple"],
     ["What tests you", a.tests, "from-electric"],
@@ -161,11 +161,13 @@ function Mirror({ a, onBack, onCard }: { a: Archetype; onBack: () => void; onCar
         <button onClick={onBack} className="btn-ghost">Back to the wheel</button>
         <button onClick={onCard} className="btn-glow">Create my card</button>
       </div>
+      <p className="mt-8 text-center text-sm text-muted-foreground">Want to go deeper?</p>
+      <div className="mt-3 flex justify-center"><button onClick={onScan} className="btn-ghost">Discover your full birth profile</button></div>
     </div>
   );
 }
 
-function ShareCard({ a, onBack, onRestart }: { a: Archetype; onBack: () => void; onRestart: () => void }) {
+function ShareCard({ a, onBack, onRestart, onScan }: { a: Archetype; onBack: () => void; onRestart: () => void; onScan: () => void }) {
   const download = () => {
     const W = 1080, H = 1350, cv = document.createElement("canvas");
     cv.width = W; cv.height = H;
@@ -204,6 +206,8 @@ function ShareCard({ a, onBack, onRestart }: { a: Archetype; onBack: () => void;
         <button onClick={download} className="btn-glow">Download card</button>
         <button onClick={onRestart} className="btn-ghost">Start again</button>
       </div>
+      <p className="mt-8 text-center text-sm text-muted-foreground">Want to go deeper?</p>
+      <div className="mt-3 flex justify-center"><button onClick={onScan} className="btn-ghost">Discover your full birth profile</button></div>
     </div>
   );
 }
