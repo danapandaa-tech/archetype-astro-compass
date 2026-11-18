@@ -70,7 +70,7 @@ function Compass({ active, setActive, onChoose }: { active: Archetype | null; se
   const hint = useMemo(() => {
     if (!birth) return null;
     const [, m, d] = birth.split("-").map(Number);
-    const s = sunSign(m, d);
+    const s = sunSign(m ?? 1, d ?? 1);
     return ARCHETYPES.find((a) => a.sign === s) ?? null;
   }, [birth]);
   const R = 200, r = 78, C = 220;
