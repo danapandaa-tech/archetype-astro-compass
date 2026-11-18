@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ARCHETYPES, sunSign, type Archetype } from "@/lib/archetypes";
+import { ArchetypeScanner } from "@/components/archetype-scanner";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,7 +18,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Stage = "landing" | "compass" | "mirror" | "card";
+type Stage = "landing" | "compass" | "mirror" | "card" | "scanner";
 
 function Stars() {
   const stars = useMemo(() => Array.from({ length: 90 }, (_, i) => ({
@@ -41,7 +43,9 @@ function Index() {
     <main className="relative min-h-screen overflow-hidden bg-cosmic text-foreground">
       <Stars />
       <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-5 py-12">
-        {stage === "landing" && <Landing onBegin={() => setStage("compass")} />}
+        {stage === "landing" && <Landing onBegin={() => setStage("compass")} onScan={() => setStage("scanner")} />}
+        {stage === "scanner" && <ArchetypeScanner onBack={() => setStage("compass")} />}
+        {stage === "compass" && <Button variant="outline" className="mb-8" onClick={() => setStage("scanner")}>Discover my birth profile</Button>}
         {stage === "compass" && <Compass active={active} setActive={setActive} onChoose={(a) => { setActive(a); setStage("mirror"); }} />}
         {stage === "mirror" && active && <Mirror a={active} onBack={() => setStage("compass")} onCard={() => setStage("card")} />}
         {stage === "card" && active && <ShareCard a={active} onBack={() => setStage("mirror")} onRestart={() => { setActive(null); setStage("compass"); }} />}
@@ -50,7 +54,7 @@ function Index() {
   );
 }
 
-function Landing({ onBegin }: { onBegin: () => void }) {
+function Landing({ onBegin, onScan }: { onBegin: () => void; onScan: () => void }) {
   return (
     <div className="fade-in text-center">
       <p className="mb-6 text-xs uppercase tracking-[0.4em] text-teal">The Archetype Compass</p>
@@ -60,7 +64,7 @@ function Landing({ onBegin }: { onBegin: () => void }) {
       <p className="mx-auto mt-6 max-w-md text-muted-foreground">
         Twelve patterns of the psyche, twelve signs of the sky. Not a prediction — a mirror.
       </p>
-      <button onClick={onBegin} className="btn-glow mt-10">Begin</button>
+      <div className="mt-10 flex flex-wrap justify-center gap-3"><Button onClick={onScan} className="btn-glow h-auto whitespace-normal">Discover my birth profile</Button><Button onClick={onBegin} variant="outline" className="h-auto py-3">Begin</Button></div>
     </div>
   );
 }
@@ -165,7 +169,8 @@ function ShareCard({ a, onBack, onRestart }: { a: Archetype; onBack: () => void;
   const download = () => {
     const W = 1080, H = 1350, cv = document.createElement("canvas");
     cv.width = W; cv.height = H;
-    const x = cv.getContext("2d")!;
+    const x = cv.getContext("2d");
+    if (!x) return;
     const css = getComputedStyle(document.documentElement);
     const v = (n: string) => css.getPropertyValue(n).trim();
     const g = x.createLinearGradient(0, 0, W, H);

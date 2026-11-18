@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Keep scanner calculations in a pure browser-safe module using astronomy-engine, with explicit UTC offsets; birth details stay in memory because this free scanner does not require stored profiles.
+- Preserve the uploaded scanner's sign-to-archetype correspondence separately from the twelve-pattern reflection wheel; they are different editorial mappings.
+- Keep the extended-reading offer non-purchasable until a payment link and verified access flow are supplied; never unlock paid content from a return URL alone.
