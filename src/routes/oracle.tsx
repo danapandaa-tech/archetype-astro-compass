@@ -53,14 +53,14 @@ function Oracle() {
       <Button variant={mode === "ruler" ? "default" : "outline"} aria-pressed={mode === "ruler"} onClick={() => setMode("ruler")}>Planetary day</Button>
       <Button variant={mode === "draw" ? "default" : "outline"} aria-pressed={mode === "draw"} onClick={() => setMode("draw")}>Card draw</Button>
     </div>
-    {mode === "draw" && <div className="mb-7 text-center"><Button onClick={() => { setDraw(drawArchetype(Math.random())?.id ?? "hero"); }} className="btn-glow h-auto"><Shuffle />{draw ? "Draw again" : "Draw my card"}</Button></div>}
+    {mode === "draw" && <div className="mb-7 text-center"><Button onClick={() => { setDraw(drawArchetype(Math.random())?.id ?? "creator"); }} className="btn-glow h-auto"><Shuffle />{draw ? "Draw again" : "Draw my card"}</Button></div>}
     {archetype && reflection && <div className="fade-in" aria-live="polite">
       <section className="oracle-card mx-auto flex max-w-sm flex-col items-center rounded-lg px-7 py-9 text-center">
         <span className="text-5xl text-gold" aria-hidden="true">{mode === "ruler" ? today?.symbol : archetype.glyph}</span>
         <p className="mt-4 text-xs uppercase tracking-widest text-gold">{mode === "ruler" ? `${today?.planet} · Day ruler` : "Your drawn archetype"}</p>
         <h2 className="mt-3 font-display text-4xl">{archetype.name}</h2>
-        <p className="mt-4 font-display text-xl italic text-teal">{archetype.desire}</p>
-        <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{archetype.calls}</p>
+        <p className="mt-4 font-display text-xl italic text-teal">{archetype.gift}</p>
+        <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{archetype.developmentalTask}</p>
       </section>
       <div className="mt-10 grid gap-8 md:grid-cols-2">
         <section className="border-t border-border pt-6"><h2 className="flex items-center gap-2 font-display text-2xl text-gold"><Sunrise size={22} />Morning contemplation</h2><p className="mt-4 min-h-20 leading-relaxed">{reflection.morning}</p><label htmlFor="morning" className="mt-4 block text-sm text-teal">My intention</label><textarea id="morning" value={morning} onChange={e => setMorning(e.target.value)} rows={5} className="scanner-input mt-2 resize-y" /></section>

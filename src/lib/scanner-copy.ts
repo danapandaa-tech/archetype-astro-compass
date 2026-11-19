@@ -1,3 +1,6 @@
+import { ARCHETYPES } from "@/lib/archetypes";
+const CAST_FR = [["Initiative et courage de commencer.", "Impulsivité et précipitation sans écoute.", "Commencer avec courage en respectant le rythme des autres."], ["Stabilité, patience et présence ancrée.", "Inertie, possessivité et résistance au changement.", "Rester ancré tout en accueillant le changement."], ["Curiosité et lien entre les perspectives par le langage.", "Attention dispersée et paroles déconnectées du vécu.", "Écouter profondément et communiquer avec clarté."], ["Sensibilité émotionnelle et protection attentive.", "Surprotection et attachement excessif.", "Prendre soin avec des limites qui permettent de grandir."], ["Expression créative et confiance généreuse.", "Dépendance aux applaudissements et personnalisation excessive.", "S’exprimer sincèrement sans dépendre de l’approbation."], ["Discernement et amélioration concrète.", "Perfectionnisme et critique incessante.", "Améliorer l’essentiel en acceptant l’imperfection."], ["Équilibre, équité et sensibilité relationnelle.", "Complaisance et évitement du conflit nécessaire.", "Créer l’harmonie sans taire sa vérité."], ["Profondeur et capacité de renouvellement sincère.", "Contrôle, fixation et méfiance.", "Accueillir le changement sans contrôler les autres."], ["Exploration et recherche de sens.", "Agitation et certitudes qui négligent les nuances.", "Explorer largement et vivre les leçons de l’expérience."], ["Responsabilité et construction durable.", "Rigidité et valeur personnelle réduite aux résultats.", "Construire avec sens en permettant repos et souplesse."], ["Perspective originale et possibilités collectives.", "Détachement et idéaux éloignés des besoins vécus.", "Relier sa vision aux autres et à des actions concrètes."], ["Intuition, compassion et sensibilité au lien.", "Fuite et perte des limites personnelles.", "Ancrer l’intuition dans le quotidien avec des limites claires."]];
+
 export const L = {
   fr: {
     title: "Scanner d'Archétypes",
@@ -74,74 +77,7 @@ export const SIGNNAME = {
         aquarius: "Aquarius", pisces: "Pisces" },
 } as const;
 
-export const ARCH = {
-  hero: {
-    fr: { name: "Le Héros", text: "Vous êtes ici pour vaincre : prouver votre valeur par l'action, l'audace et le dépassement. Votre arc de héros est l'apprentissage du courage vrai — qui n'est pas l'absence de peur, mais le choix d'avancer malgré elle." },
-    en: { name: "The Hero", text: "You are here to overcome: to prove your worth through action, audacity and self-surpassing. Your hero's journey is learning true courage — not the absence of fear, but the choice to move through it." },
-    keyword: { fr: "courage", en: "courage" }, shadow: { fr: "arrogance, besoin de gagner", en: "arrogance, need to win" },
-    gift: { fr: "L’élan qui remet tout le monde en marche quand le groupe hésite.", en: "The spark that gets everyone moving when the group hesitates." },
-  },
-  caregiver: {
-    fr: { name: "Le Soigneur", text: "Vous êtes ici pour prendre soin, protéger, faire grandir. Votre générosité crée des refuges ; votre travail intérieur est de vous inclure dans le cercle de ceux que vous sauvez." },
-    en: { name: "The Caregiver", text: "You are here to care, protect and nurture. Your generosity creates refuges; your inner work is including yourself among those you save." },
-    keyword: { fr: "bienveillance", en: "compassion" }, shadow: { fr: "dévouement excessif, martyr", en: "over-giving, martyrdom" },
-    gift: { fr: "Créer autour de vous un sentiment de sécurité qui fait grandir les autres.", en: "Creating around you a sense of safety that lets others grow." },
-  },
-  explorer: {
-    fr: { name: "L'Explorateur", text: "Vous êtes ici pour découvrir : l'horizon, le sens, la liberté. Vous grandissez par le mouvement et l'inconnu ; votre quête est de trouver en vous le foyer que vous cherchez au-dehors." },
-    en: { name: "The Explorer", text: "You are here to discover: the horizon, the meaning, the freedom. You grow through movement and the unknown; your quest is finding the home you seek outside, within." },
-    keyword: { fr: "liberté", en: "freedom" }, shadow: { fr: "errance, fuite", en: "wandering, escape" },
-    gift: { fr: "Ouvrir des portes que les autres ne voyaient même pas.", en: "Opening doors others did not even see." },
-  },
-  rebel: {
-    fr: { name: "Le Rebelle", text: "Vous êtes ici pour briser ce qui est mort : les règles, les dogmes, les plafonds. Votre radicalité est une force quand elle construit, un piège quand elle ne fait que détruire." },
-    en: { name: "The Rebel", text: "You are here to break what is dead: rules, dogmas, ceilings. Your radicalism is a force when it builds, a trap when it only destroys." },
-    keyword: { fr: "libération", en: "liberation" }, shadow: { fr: "destructivité, nihilisme", en: "destructiveness, nihilism" },
-    gift: { fr: "Dire tout haut ce que tout le monde pense tout bas, et libérer la parole.", en: "Saying out loud what everyone whispers, and freeing the conversation." },
-  },
-  lover: {
-    fr: { name: "L'Amant", text: "Vous êtes ici pour aimer et être aimé : la beauté, la passion, l'attirance. Votre sensibilité esthétique et relationnelle est un don ; votre ombre, la peur de perdre l'autre." },
-    en: { name: "The Lover", text: "You are here to love and be loved: beauty, passion, attraction. Your aesthetic and relational sensibility is a gift; your shadow, the fear of losing the other." },
-    keyword: { fr: "passion", en: "passion" }, shadow: { fr: "jalousie, dépendance", en: "jealousy, dependence" },
-    gift: { fr: "Rendre les moments ordinaires intensément vivants pour ceux qui vous entourent.", en: "Making ordinary moments intensely alive for those around you." },
-  },
-  creator: {
-    fr: { name: "Le Créateur", text: "Vous êtes ici pour donner forme : créer de la beauté, de l'ordre, de l'original. Vous vous réalisez par l'œuvre ; votre ombre est le perfectionnisme qui étouffe ce qu'il veut faire naître." },
-    en: { name: "The Creator", text: "You are here to give form: to create beauty, order, the original. You fulfil yourself through the work; your shadow is the perfectionism that smothers what it wants to birth." },
-    keyword: { fr: "création", en: "creation" }, shadow: { fr: "perfectionnisme, narcissisme", en: "perfectionism, narcissism" },
-    gift: { fr: "Donner une forme visible à ce qui n’existait que dans l’imaginaire.", en: "Giving visible form to what only existed in imagination." },
-  },
-  jester: {
-    fr: { name: "Le Bouffon", text: "Vous êtes ici pour alléger : rire, jouer, renverser les solennités. Votre légèreté est une sagesse ; elle devient fuite quand elle évite tout engagement sérieux." },
-    en: { name: "The Jester", text: "You are here to lighten: to laugh, play and turn solemnity upside down. Your lightness is wisdom; it becomes escape when it avoids every serious commitment." },
-    keyword: { fr: "insouciance", en: "spontaneity" }, shadow: { fr: "frivolité, irresponsabilité", en: "frivolity, irresponsibility" },
-    gift: { fr: "Désamorcer les tensions d’un trait d’esprit au moment exact où il le faut.", en: "Defusing tension with a flash of wit at exactly the right moment." },
-  },
-  sage: {
-    fr: { name: "Le Sage", text: "Vous êtes ici pour comprendre : analyser, chercher la vérité, dissiper l'illusion. Votre lucidité guide les autres ; son piège, l'intellectualisation qui remplace la vie." },
-    en: { name: "The Sage", text: "You are here to understand: to analyse, seek truth and dispel illusion. Your clarity guides others; its trap, intellectualising instead of living." },
-    keyword: { fr: "vérité", en: "truth" }, shadow: { fr: "détachement, cynisme", en: "detachment, cynicism" },
-    gift: { fr: "Voir clair là où les autres s’embrouillent, et le partager simplement.", en: "Seeing clearly where others get tangled, and sharing it simply." },
-  },
-  magician: {
-    fr: { name: "Le Magicien", text: "Vous êtes ici pour transformer : les situations, les êtres, vous-même. Vous savez voir les forces invisibles ; votre ombre est la manipulation, quand la volonté n'écoute plus l'éthique." },
-    en: { name: "The Magician", text: "You are here to transform: situations, people, yourself. You perceive the invisible forces; your shadow is manipulation, when will no longer listens to ethics." },
-    keyword: { fr: "transformation", en: "transformation" }, shadow: { fr: "manipulation", en: "manipulation" },
-    gift: { fr: "Transformer les épreuves — les vôtres et celles des autres — en renaissance.", en: "Turning trials — yours and others’ — into rebirth." },
-  },
-  ruler: {
-    fr: { name: "Le Souverain", text: "Vous êtes ici pour structurer et régner : bâtir l'ordre, assumer la responsabilité, créer la prospérité. Votre pouvoir est un service ; dégénéré, il devient contrôle." },
-    en: { name: "The Ruler", text: "You are here to structure and reign: to build order, bear responsibility, create prosperity. Your power is a service; degenerated, it becomes control." },
-    keyword: { fr: "maîtrise", en: "mastery" }, shadow: { fr: "contrôle, autoritarisme", en: "control, authoritarianism" },
-    gift: { fr: "Bâtir des structures durables dans lesquelles chacun trouve sa place.", en: "Building lasting structures in which everyone finds their place." },
-  },
-  innocent: {
-    fr: { name: "L'Innocent", text: "Vous êtes ici pour garder la foi : la simplicité, l'émerveillement, la confiance en la vie. Votre pureté est un refuge pour les autres ; sa part d'ombre, la naïveté qui refuse de voir." },
-    en: { name: "The Innocent", text: "You are here to keep faith: simplicity, wonder, trust in life. Your purity is a refuge for others; its shadow, the naivety that refuses to see." },
-    keyword: { fr: "confiance", en: "trust" }, shadow: { fr: "naïveté, déni", en: "naivety, denial" },
-    gift: { fr: "Rappeler aux autres que la vie peut être simple, bonne et sûre.", en: "Reminding others that life can be simple, good and safe." },
-  },
-} as const;
+export const ARCH: Record<string, { name: string; gift: { en: string; fr: string }; shadow: { en: string; fr: string }; developmentalTask: { en: string; fr: string } }> = Object.fromEntries(ARCHETYPES.map((a, i) => [a.id, { name: a.name, gift: { en: a.gift, fr: CAST_FR[i]?.[0] ?? a.gift }, shadow: { en: a.shadow, fr: CAST_FR[i]?.[1] ?? a.shadow }, developmentalTask: { en: a.developmentalTask, fr: CAST_FR[i]?.[2] ?? a.developmentalTask } }]));
 
 export const MOON = {
   fr: { aries: "Vous ressenez vite, fort, et vous agissez avant d'avoir fini de ressentir. Vous avez besoin de mouvement pour digérer vos émotions.",

@@ -51,9 +51,9 @@ export function ArchetypeScanner({ onBack }: { onBack: () => void }) {
       {profile && solar && lunar && day && <div className="fade-in mt-8 space-y-7" aria-live="polite">
         <section className="border-b border-border pb-7">
           <p className="flex items-center gap-2 text-sm text-teal"><Sun size={18} />{fr ? "Archétype solaire" : "Solar archetype"} · {SIGNNAME[lang][profile.sun.key]}</p>
-          <h2 className="mt-3 font-display text-3xl">{solar[lang].name}</h2>
-          <p className="mt-3 leading-relaxed">{solar[lang].text}</p>
-          <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2"><div><dt className="text-muted-foreground">{fr ? "Mot-clé" : "Keyword"}</dt><dd className="mt-1">{solar.keyword[lang]}</dd></div><div><dt className="text-muted-foreground">{fr ? "Ombre à surveiller" : "Shadow to watch"}</dt><dd className="mt-1">{solar.shadow[lang]}</dd></div><div className="sm:col-span-2"><dt className="text-muted-foreground">{fr ? "Votre don" : "Your gift"}</dt><dd className="mt-1">{solar.gift[lang]}</dd></div></dl>
+          <h2 className="mt-3 font-display text-3xl">{solar.name}</h2>
+          
+          <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2"><div><dt className="text-muted-foreground">{fr ? "Tâche développementale" : "Developmental task"}</dt><dd className="mt-1">{solar.developmentalTask[lang]}</dd></div><div><dt className="text-muted-foreground">{fr ? "Ombre à surveiller" : "Shadow to watch"}</dt><dd className="mt-1">{solar.shadow[lang]}</dd></div><div className="sm:col-span-2"><dt className="text-muted-foreground">{fr ? "Votre don" : "Your gift"}</dt><dd className="mt-1">{solar.gift[lang]}</dd></div></dl>
           <div className="mt-5 grid gap-4 text-sm sm:grid-cols-2">
             <div><p className="text-muted-foreground">{fr ? "Élément" : "Element"} · {ELEMENTS[lang][sunElement]}</p><p className="mt-1 leading-relaxed">{ELEMENTNOTE[sunElement][lang]}</p></div>
             <div><p className="text-muted-foreground">{fr ? "Mode" : "Mode"} · {MODES[lang][sunMode]}</p><p className="mt-1 leading-relaxed">{MODENOTE[sunMode][lang]}</p></div>
@@ -61,7 +61,7 @@ export function ArchetypeScanner({ onBack }: { onBack: () => void }) {
         </section>
         <section className="border-b border-border pb-7">
           <p className="flex items-center gap-2 text-sm text-teal"><Moon size={18} />{fr ? "Archétype lunaire" : "Moon archetype"} · {SIGNNAME[lang][profile.moon.key]}</p>
-          <h2 className="mt-3 font-display text-3xl">{lunar[lang].name}</h2>
+          <h2 className="mt-3 font-display text-3xl">{lunar.name}</h2>
           <p className="mt-3 leading-relaxed">{MOON[lang][profile.moon.key]}</p>
           <p className="mt-3 text-sm text-muted-foreground">{fr ? "Votre monde intérieur, vos besoins émotionnels et vos réactions spontanées." : "Your inner world, emotional needs, and spontaneous reactions."}</p>
           <div className="mt-4 border-l-2 border-teal pl-4">
@@ -70,7 +70,7 @@ export function ArchetypeScanner({ onBack }: { onBack: () => void }) {
           </div>
         </section>
         <div className="grid gap-6 sm:grid-cols-2">
-          <section><h2 className="text-sm text-teal">{fr ? "Décan" : "Decan blend"} · {profile.blend.decan}/3</h2><p className="mt-3 font-display text-2xl">{ARCH[profile.blend.sign.archetype][lang].name}</p><p className="mt-2 text-sm text-muted-foreground">{fr ? "Une seconde teinte de" : "A second hue from"} {SIGNNAME[lang][profile.blend.sign.key]}{fr ? " colore votre archétype solaire." : " colours your solar archetype."}</p><p className="mt-2 text-sm leading-relaxed">{fr ? "Dans la tradition des décans, chaque signe se partage en trois tiers de dix degrés. Le vôtre emprunte les couleurs de" : "In the decan tradition, each sign divides into three ten-degree thirds. Yours borrows the colours of"} {SIGNNAME[lang][profile.blend.sign.key]}{fr ? ", ce qui ajoute la note «" : ", adding the note of “"}{ARCH[profile.blend.sign.archetype].keyword[lang]}{fr ? "» à votre manière d’incarner" : "” to how you embody"} {solar[lang].name}.</p></section>
+          <section><h2 className="text-sm text-teal">{fr ? "Décan" : "Decan blend"} · {profile.blend.decan}/3</h2><p className="mt-3 font-display text-2xl">{ARCH[profile.blend.sign.archetype]?.name}</p><p className="mt-2 text-sm text-muted-foreground">{fr ? "Une seconde teinte de" : "A second hue from"} {SIGNNAME[lang][profile.blend.sign.key]}{fr ? " colore votre archétype solaire." : " colours your solar archetype."}</p><p className="mt-2 text-sm leading-relaxed">{fr ? "Dans la tradition des décans, chaque signe se partage en trois tiers de dix degrés. Le vôtre emprunte les couleurs de" : "In the decan tradition, each sign divides into three ten-degree thirds. Yours borrows the colours of"} {SIGNNAME[lang][profile.blend.sign.key]}{fr ? ", ce qui ajoute la note «" : ", adding the note of “"}{ARCH[profile.blend.sign.archetype]?.gift[lang]}{fr ? "» à votre manière d’incarner" : "” to how you embody"} {solar.name}.</p></section>
           <section><h2 className="text-sm text-teal">{fr ? "Maître planétaire du jour" : "Planetary day ruler"}</h2><p className="mt-3 font-display text-2xl">{day.ruler[lang]} · {day[lang]}</p><p className="mt-2 text-sm text-muted-foreground">{day.note[lang]}</p></section>
           <section className="sm:col-span-2"><h2 className="text-sm text-teal">{fr ? "Sentier de vie" : "Life Path numerology"}</h2><p className="mt-3 font-display text-4xl text-gold">{profile.lifePath}</p><p className="mt-2 text-sm text-muted-foreground">{LIFE[lang][profile.lifePath as keyof typeof LIFE.en]}</p><p className="mt-2 text-sm leading-relaxed">{fr ? "Ce nombre se lit comme la trame de fond de votre parcours : il ne dit pas ce qui arrivera, mais ce qui revient — les leçons, les forces et les tentations qui rythment votre route." : "Read this number as the undercurrent of your journey: it does not say what will happen, but what returns — the lessons, strengths and temptations that pace your road."}</p></section>
         </div>
@@ -80,7 +80,7 @@ export function ArchetypeScanner({ onBack }: { onBack: () => void }) {
           <p className="mt-3 text-sm text-muted-foreground">{fr ? "Paiement unique · Sans abonnement" : "One-time payment · No subscription"}</p>
           <Button disabled size="lg" className="mt-5 h-auto whitespace-normal py-3"><LockKeyhole />{fr ? "Lecture approfondie · Bientôt disponible" : "Extended reading · Coming soon"}<ArrowRight /></Button>
         </section>
-        <p className="border-t border-border pt-5 text-xs leading-relaxed text-muted-foreground">{fr ? "Lecture symbolique, non prédictive. Sans heure de naissance, calcul à midi UTC : le signe lunaire peut changer dans la journée. Les décans suivent la tradition des signes de même élément. La numérologie réduit les chiffres à 1–9. Ce profil n’est pas un thème natal complet." : "A symbolic reflection, not a prediction. Without a birth time, positions use noon UTC: the Moon sign may change during the day. Decans use the same-element sign tradition. Numerology reduces birth-date digits to 1–9. This is not a full natal chart."}</p>
+        <p className="border-t border-border pt-5 text-xs leading-relaxed text-muted-foreground">{fr ? "Lecture symbolique, non prédictive. Sans heure de naissance, calcul à midi UTC : le signe lunaire peut changer dans la journée. Les décans suivent la tradition des signes de même élément. La numérologie réduit les chiffres à 1–9. Ce profil n’est pas un thème natal complet." : "A symbolic reflection, not a prediction. Sun signs follow the book’s fixed date ranges. Without a birth time, Moon and decan positions use noon UTC: the Moon sign may change during the day. Decans use the same-element sign tradition. Numerology reduces birth-date digits to 1–9. This is not a full natal chart."}</p>
       </div>}
     </div>
   );

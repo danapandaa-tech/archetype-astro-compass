@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "The Archetype Compass — Astro-Psychology Companion" },
-      { name: "description", content: "Discover which of Jung's 12 archetypes is calling you now, and what its zodiac mirror reflects." },
+      { name: "description", content: "Discover which of the book’s twelve archetypes is calling you now, and what its zodiac mirror reflects." },
       { property: "og:title", content: "The Archetype Compass" },
       { property: "og:description", content: "Which archetype is guiding you right now? A reflective book companion." },
       { property: "og:type", content: "website" },
@@ -117,12 +117,12 @@ function Compass({ active, setActive, onChoose }: { active: Archetype | null; se
       <div className="glass min-h-[280px] rounded-2xl p-7">
         {active ? (
           <div key={active.id} className="fade-in">
-            <p className="text-xs uppercase tracking-[0.3em] text-teal">{active.glyph} {active.sign}</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-teal">{active.glyph} {active.sign} · {active.dateRange}</p>
             <h2 className="mt-2 font-display text-3xl text-gradient">{active.name}</h2>
             <dl className="mt-5 space-y-4 text-sm">
-              <div><dt className="text-muted-foreground">Core desire</dt><dd className="text-base">{active.desire}</dd></div>
+              <div><dt className="text-muted-foreground">Gift</dt><dd className="text-base">{active.gift}</dd></div>
               <div><dt className="text-muted-foreground">Shadow side</dt><dd className="text-base">{active.shadow}</dd></div>
-              <div><dt className="text-muted-foreground">Guiding question</dt><dd className="font-display text-lg italic">“{active.question}”</dd></div>
+              <div><dt className="text-muted-foreground">Developmental task</dt><dd className="font-display text-lg italic">“{active.developmentalTask}”</dd></div>
             </dl>
             <button onClick={() => onChoose(active)} className="btn-glow mt-6 w-full">This one is calling me</button>
           </div>
@@ -149,9 +149,9 @@ function CallingInvitation({ calling }: { calling: CallingResult }) {
 
 function Mirror({ a, calling, onBack, onCard, onScan }: { a: Archetype; calling: CallingResult | null; onBack: () => void; onCard: () => void; onScan: () => void }) {
   const parts = [
-    ["What calls you", a.calls, "from-purple"],
-    ["What tests you", a.tests, "from-electric"],
-    ["What asks for your attention now", a.attention, "from-teal"],
+    ["Gift", a.gift, "from-purple"],
+    ["Shadow", a.shadow, "from-electric"],
+    ["Developmental task", a.developmentalTask, "from-teal"],
   ] as const;
   return (
     <div className="fade-in w-full max-w-2xl">
@@ -194,23 +194,26 @@ function ShareCard({ a, calling, onBack, onRestart, onScan }: { a: Archetype; ca
     x.font = "120px serif"; x.fillText(a.glyph, W / 2, 330);
     x.font = "34px sans-serif"; x.fillText(a.sign.toUpperCase(), W / 2, 420);
     x.font = "italic 88px Georgia, serif"; x.fillText(a.name, W / 2, 540);
-    x.font = "30px sans-serif"; x.globalAlpha = 0.75; x.fillText("CORE DESIRE", W / 2, 690); x.globalAlpha = 1;
-    x.font = "44px Georgia, serif"; x.fillText(a.desire, W / 2, 755);
-    x.font = "italic 48px Georgia, serif";
-    const words = `“${a.question}”`.split(" "); let line = "", y = 920;
-    for (const w of words) { const t = line + w + " "; if (x.measureText(t).width > 820) { x.fillText(line, W / 2, y); line = w + " "; y += 66; } else line = t; }
-    x.fillText(line, W / 2, y);
+    let y = 640;
+    for (const [label, body] of [["GIFT", a.gift], ["SHADOW", a.shadow], ["DEVELOPMENTAL TASK", a.developmentalTask]]) {
+      x.font = "24px sans-serif"; x.fillText(label ?? "", W / 2, y); y += 42;
+      x.font = "34px Georgia, serif";
+      let line = "";
+      for (const word of (body ?? "").split(" ")) {
+        const next = `${line}${word} `;
+        if (x.measureText(next).width > 820) { x.fillText(line, W / 2, y); y += 44; line = `${word} `; } else line = next;
+      }
+      x.fillText(line, W / 2, y); y += 80;
+    }
     const l = document.createElement("a"); l.download = `${a.id}-archetype.png`; l.href = cv.toDataURL("image/png"); l.click();
   };
   return (
     <div className="fade-in flex flex-col items-center">
-      <div className="share-card flex aspect-[4/5] w-[min(88vw,400px)] flex-col items-center justify-center rounded-2xl p-8 text-center text-gold">
+      <div className="share-card flex min-h-[500px] w-[min(88vw,400px)] flex-col items-center justify-center rounded-lg p-6 text-center text-gold">
         <div className="text-6xl">{a.glyph}</div>
         <p className="mt-3 text-xs uppercase tracking-[0.4em]">{a.sign}</p>
         <h2 className="mt-4 font-display text-4xl italic">{a.name}</h2>
-        <p className="mt-8 text-[10px] uppercase tracking-[0.3em] opacity-75">Core desire</p>
-        <p className="mt-1 font-display text-lg">{a.desire}</p>
-        <p className="mt-8 font-display text-xl italic leading-snug">“{a.question}”</p>
+        <dl className="mt-5 space-y-4 text-sm">{[["Gift", a.gift], ["Shadow", a.shadow], ["Developmental task", a.developmentalTask]].map(([label, body]) => <div key={label}><dt className="text-xs uppercase opacity-75">{label}</dt><dd className="mt-1 font-display text-base">{body}</dd></div>)}</dl>
       </div>
       {calling && <div className="w-full max-w-2xl"><CallingInvitation calling={calling} /></div>}
       <div className="mt-8 flex flex-wrap justify-center gap-3">

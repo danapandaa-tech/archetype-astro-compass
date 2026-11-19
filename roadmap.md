@@ -10,3 +10,6 @@
 - [x] Add five-question guided calling inquiry from landing and compass.
 - [x] Connect scored calling and shadow invitation to Mirror and share card.
 - [x] Test scoring rules and verify the assessment journey on desktop and mobile.
+- [x] Replace all cast references with the author’s twelve distinct archetypes and gift/shadow/developmental-task structure.
+- [x] Test exact sign mappings and all book date boundaries; verify companion flows.
+- [ ] Republish the updated companion after security checks.

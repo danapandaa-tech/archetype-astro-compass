@@ -1,58 +1,24 @@
 export type Archetype = {
-  id: string; name: string; sign: string; glyph: string;
-  desire: string; shadow: string; question: string;
-  calls: string; tests: string; attention: string;
+  id: string; name: string; sign: string; glyph: string; dateRange: string;
+  gift: string; shadow: string; developmentalTask: string;
 };
 
+export const ARCHETYPE_KEYS = ["pioneer", "anchor", "translator", "guardian", "creator", "refiner", "harmonizer", "transformer", "seeker", "architect", "visionary", "mystic"] as const;
+
+// Interpretive copy is companion wording, not a quotation from the book.
 export const ARCHETYPES: Archetype[] = [
-  { id: "innocent", name: "The Innocent", sign: "Aries", glyph: "♈\uFE0E", desire: "Safety, new beginnings", shadow: "Denial of harm, naïve optimism", question: "What are you afraid to see?",
-    calls: "You still believe a fresh start is possible, and that belief is not foolish — it is fuel. The call is to begin again with open eyes, not closed ones.",
-    tests: "The Innocent who looks away. The one who keeps the peace by refusing to notice what is already broken.",
-    attention: "If you let yourself see one hard thing clearly today, what would it be?" },
-  { id: "orphan", name: "The Orphan", sign: "Cancer", glyph: "♋\uFE0E", desire: "Belonging, connection", shadow: "Victimhood, clinging", question: "Where do you already belong?",
-    calls: "You know what it is to stand outside the window. That knowing makes you kind to others who are still out there. The call is to notice the doors already open to you.",
-    tests: "The Orphan who holds the wound as identity, gripping people too tightly in fear they will leave.",
-    attention: "Who has already made room for you that you have not fully let in?" },
-  { id: "hero", name: "The Hero", sign: "Leo", glyph: "♌\uFE0E", desire: "Courage, mastery", shadow: "Arrogance, needing enemies", question: "What are you really fighting?",
-    calls: "Something in you rises when things get hard. You want to meet the moment fully. The call is to aim that fire at what truly matters.",
-    tests: "The Hero who needs a dragon to feel alive, turning every person and problem into an opponent.",
-    attention: "If there were no one to defeat, what would you still want to master?" },
-  { id: "caregiver", name: "The Caregiver", sign: "Virgo", glyph: "♍\uFE0E", desire: "To protect and serve", shadow: "Martyrdom, control through helping", question: "Who are you when no one needs you?",
-    calls: "You notice the small things others miss — the tired face, the unmet need. Your care is precise and real. The call is to include yourself in it.",
-    tests: "The Caregiver who helps in order to be needed, and quietly keeps score.",
-    attention: "What would you do with an hour that belonged only to you?" },
-  { id: "explorer", name: "The Explorer", sign: "Sagittarius", glyph: "♐\uFE0E", desire: "Freedom, discovery", shadow: "Restlessness, never arriving", question: "What are you running toward — or from?",
-    calls: "You keep maps of places you haven't been. You feel restless when the road is straight. The call is not to settle — it is to trust that the search itself is home.",
-    tests: "The Explorer who never lands. The one who mistakes movement for growth and runs from every intimacy that asks for stillness.",
-    attention: "What would change if you stopped looking for the next thing and let this moment be the destination?" },
-  { id: "rebel", name: "The Rebel", sign: "Aquarius", glyph: "♒\uFE0E", desire: "Revolution, change", shadow: "Destruction without vision", question: "What are you building, not just breaking?",
-    calls: "You see the rules that others take for granted, and you see where they fail people. The call is to turn that clarity into something new.",
-    tests: "The Rebel who only knows how to say no, tearing down without a picture of what comes next.",
-    attention: "What is one thing you want to exist that does not exist yet?" },
-  { id: "lover", name: "The Lover", sign: "Libra", glyph: "♎\uFE0E", desire: "Intimacy, harmony", shadow: "Losing self in another", question: "What do you love that loves you back?",
-    calls: "You are moved by beauty and by closeness. You know how to make a room feel warmer. The call is to love without disappearing.",
-    tests: "The Lover who bends until there is no shape left, keeping harmony at the cost of truth.",
-    attention: "Where are you saying yes when part of you means no?" },
-  { id: "creator", name: "The Creator", sign: "Pisces", glyph: "♓\uFE0E", desire: "Imagination, expression", shadow: "Escapism, creative paralysis", question: "What are you afraid to make?",
-    calls: "Images, songs, half-built worlds — they move through you whether you ask or not. The call is to give one of them a body in the real world.",
-    tests: "The Creator who lives in the dream so fully that nothing is ever finished, or even started.",
-    attention: "What small, imperfect thing could you make this week?" },
-  { id: "jester", name: "The Jester", sign: "Gemini", glyph: "♊\uFE0E", desire: "Joy, spontaneity", shadow: "Cruelty disguised as wit, avoidance", question: "What truth are you hiding in your humor?",
-    calls: "You can find the light in almost anything, and you help others breathe. The call is to let your joy be honest, not a hiding place.",
-    tests: "The Jester who jokes the moment it gets real, or uses wit as a blade.",
-    attention: "What would you say if you could not make it funny?" },
-  { id: "sage", name: "The Sage", sign: "Capricorn", glyph: "♑\uFE0E", desire: "Wisdom, truth", shadow: "Dogmatism, cold detachment", question: "What do you know that you are afraid to live?",
-    calls: "You want to understand how things really work. Patience and depth come naturally to you. The call is to let knowing become living.",
-    tests: "The Sage who watches from the tower, certain and untouched, mistaking distance for clarity.",
-    attention: "Which piece of your own wisdom are you not yet acting on?" },
-  { id: "magician", name: "The Magician", sign: "Scorpio", glyph: "♏\uFE0E", desire: "Transformation, power", shadow: "Manipulation, shadow without light", question: "What are you trying to change — and what are you avoiding changing?",
-    calls: "You sense the hidden currents beneath events, and you know change is possible at the root. The call is to transform yourself first.",
-    tests: "The Magician who works others like levers, and keeps their own depths locked away.",
-    attention: "What in you is ready to end so something else can begin?" },
-  { id: "ruler", name: "The Ruler", sign: "Taurus", glyph: "♉\uFE0E", desire: "Order, prosperity", shadow: "Tyranny, rigidity", question: "What would you build if no one was watching?",
-    calls: "You know how to make things steady, lasting and good to live in. The call is to build from your values, not your fears.",
-    tests: "The Ruler who holds on so tightly that nothing can grow, confusing control with care.",
-    attention: "What could you loosen your grip on and still feel safe?" },
+  { id: "pioneer", name: "The Pioneer", sign: "Aries", glyph: "♈︎", dateRange: "Mar 21–Apr 19", gift: "Initiative and courage to begin.", shadow: "Impulsiveness and pushing ahead without listening.", developmentalTask: "Begin with courage while respecting others’ pace." },
+  { id: "anchor", name: "The Anchor", sign: "Taurus", glyph: "♉︎", dateRange: "Apr 20–May 20", gift: "Steadiness, patience and grounded presence.", shadow: "Inertia, possessiveness and resistance to change.", developmentalTask: "Stay grounded while making room for change." },
+  { id: "translator", name: "The Translator", sign: "Gemini", glyph: "♊︎", dateRange: "May 21–Jun 20", gift: "Curiosity and connecting perspectives through language.", shadow: "Scattered attention and words detached from experience.", developmentalTask: "Listen deeply and bring clarity to what you communicate." },
+  { id: "guardian", name: "The Guardian", sign: "Cancer", glyph: "♋︎", dateRange: "Jun 21–Jul 22", gift: "Emotional attunement and protective care.", shadow: "Overprotection and holding on too tightly.", developmentalTask: "Offer care with boundaries that allow growth." },
+  { id: "creator", name: "The Creator", sign: "Leo", glyph: "♌︎", dateRange: "Jul 23–Aug 22", gift: "Creative expression and generous self-confidence.", shadow: "Dependence on applause and making everything personal.", developmentalTask: "Express yourself sincerely without needing approval." },
+  { id: "refiner", name: "The Refiner", sign: "Virgo", glyph: "♍︎", dateRange: "Aug 23–Sep 22", gift: "Discernment and practical improvement.", shadow: "Perfectionism and relentless criticism.", developmentalTask: "Improve what matters while accepting imperfection." },
+  { id: "harmonizer", name: "The Harmonizer", sign: "Libra", glyph: "♎︎", dateRange: "Sep 23–Oct 22", gift: "Balance, fairness and relational sensitivity.", shadow: "People-pleasing and avoiding necessary conflict.", developmentalTask: "Create harmony without silencing your own truth." },
+  { id: "transformer", name: "The Transformer", sign: "Scorpio", glyph: "♏︎", dateRange: "Oct 23–Nov 21", gift: "Depth and the capacity for honest renewal.", shadow: "Control, fixation and withholding trust.", developmentalTask: "Meet change honestly without controlling others." },
+  { id: "seeker", name: "The Seeker", sign: "Sagittarius", glyph: "♐︎", dateRange: "Nov 22–Dec 21", gift: "Exploration and the search for meaning.", shadow: "Restlessness and certainty that overlooks nuance.", developmentalTask: "Explore widely and live what experience teaches." },
+  { id: "architect", name: "The Architect", sign: "Capricorn", glyph: "♑︎", dateRange: "Dec 22–Jan 19", gift: "Responsibility and building enduring structures.", shadow: "Rigidity and measuring worth through achievement.", developmentalTask: "Build with purpose while allowing rest and flexibility." },
+  { id: "visionary", name: "The Visionary", sign: "Aquarius", glyph: "♒︎", dateRange: "Jan 20–Feb 18", gift: "Original perspective and imagining collective possibilities.", shadow: "Detachment and ideals disconnected from lived needs.", developmentalTask: "Bring your vision into relationship and practical action." },
+  { id: "mystic", name: "The Mystic", sign: "Pisces", glyph: "♓︎", dateRange: "Feb 19–Mar 20", gift: "Intuition, compassion and sensitivity to connection.", shadow: "Escapism and losing personal boundaries.", developmentalTask: "Ground intuition in everyday life with clear boundaries." },
 ];
 
 const SUN: [string, number, number][] = [

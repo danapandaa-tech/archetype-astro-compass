@@ -30,7 +30,7 @@ use the editor.
 <!-- LOVABLE:END -->
 
 - Keep scanner calculations in a pure browser-safe module using astronomy-engine, with explicit UTC offsets; birth details stay in memory because this free scanner does not require stored profiles.
-- Preserve the uploaded scanner's sign-to-archetype correspondence separately from the twelve-pattern reflection wheel; they are different editorial mappings.
+- Derive scanner, wheel, assessment and reflection cast references from one canonical browser-safe archetype module to prevent duplicate or conflicting sign mappings; use fixed civil-date Sun ranges and astronomy-engine for Moon and decan calculations.
 - Keep the extended-reading offer non-purchasable until a payment link and verified access flow are supplied; never unlock paid content from a return URL alone.
 - Keep oracle and polarity rules in a pure browser-safe reflection module, separate from scanner mappings; use explicit local UTC offsets for the daily ruler and keep journal entries and birth inputs in React memory only to avoid storing private reflections.
 - Keep guided calling questions and equal-weight scoring in a pure browser-safe assessment module; break ties by latest selected answer, use the runner-up or an explicit balancing map for shadow invitations, and pass results in React memory to Mirror and Share Card so reflective answers are not persisted.
